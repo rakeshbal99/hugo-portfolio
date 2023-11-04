@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<style>
+    .video-container {
+        width: 800px;
+        height: 533px;
+        overflow: hidden;
+    }
+    
+    .video-container video {
+        object-fit: cover;
+        width: 95%;
+        height: 100%;
+    }
+  .tab-content {
+    display: none;
+    padding: 20px;
+  }
+    </style>
+<head>
+    <meta charset="utf-8">
+    <meta content="PAIR Diffusion"
+          name="description">
+    <meta content="Diffusion, LDM, Image Editing" name="keywords">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>PAIR Diffusion: A Comprehensive Multimodal Object-level Image Editor. </title>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-PYVRSFMDRL');
+    </script>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+          rel="stylesheet">
+
+    <link href="./static/css/bulma.min.css" rel="stylesheet">
+    <link href="./static/css/bulma-carousel.min.css" rel="stylesheet">
+    <link href="./static/css/bulma-slider.min.css" rel="stylesheet">
+    <link href="./static/css/fontawesome.all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
+          rel="stylesheet">
+    <link href="./static/css/index.css" rel="stylesheet">
+    <link href="./static/css/tab.css" rel="stylesheet">
+    <link href="./static/css/gif.css" rel="stylesheet">
+    <link href="./static/images/web.png" rel="icon">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <script src="./static/js/index.js"></script>
+    <script src="./static/js/tab.js"></script>
+    <script src="./static/js/display_images.js"></script>
+    <style>
+
+    /* Custom CSS for rounded corners and spacing */
+    .image-grid .column {
+      padding: 4px; /* Adjust the spacing between images here */
+    }
+
+    .image-grid img {
+      border-radius: 10px; /* Adjust the corner radius as needed */
+    }
+  </style>
+</head>
+<body>
+<section class="hero">
+    <div class="hero-body">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered">
+                <div class="column has-text-centered">
+                    <h1 class="title is-2 publication-title">PAIR Diffusion: A Comprehensive Multimodal <br> Object-level
+                        Image Editor</h1>
+                    <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://vidit98.github.io/" style="font-size: 16px;">Vidit Goel*</a><sup>1</sup>,</span>
+                        <span class="author-block">
+              <a href="https://helia95.github.io/" style="font-size: 16px;">Elia Peruzzo*</a><sup>2</sup>,</span>
+                        <span class="author-block">
+              <a href="https://yifanjiang19.github.io/" style="font-size: 16px;">Yifan Jiang</a><sup>3</sup>,
+            </span>
+                        <span class="author-block">
+              <a href="https://ir1d.github.io/" style="font-size: 16px;">Dejia Xu</a><sup>3</sup>,
+            </span>
+            </span>
+                    <span class="author-block">
+            <a href="https://ifp-uiuc.github.io/" style="font-size: 16px;">Xingqian Xu</a><sup>1</sup>,
+            </span>
+                        <span class="author-block">
+              <a href="http://disi.unitn.it/~sebe/" style="font-size: 16px;">Nicu Sebe</a><sup>2</sup>,
+            </span>
+                        <span class="author-block">
+              <a href="https://people.eecs.berkeley.edu/~trevor/" style="font-size: 16px;">Trevor Darrell</a><sup>4</sup>,
+            </span>
+                        <span class="author-block">
+              <a href="https://www.ece.utexas.edu/people/faculty/atlas-wang" style="font-size: 16px;">Zhangyang Wang</a><sup>1,3</sup>,
+            </span>
+                        <span class="author-block">
+              <a href="https://www.humphreyshi.com/" style="font-size: 16px;">Humphrey Shi</a><sup>1,5,6</sup>
+            </span>
+
+
+                    </div>
+
+                    <div class="is-size-5 publication-authors" >
+                        <span class="author-block" style="font-size: 16px;"><sup>1</sup>Picsat AI Research,</span>
+                        <span class="author-block" style="font-size: 16px;"><sup>2</sup>UTrento,</span>
+                        <span class="author-block" style="font-size: 16px;"><sup>3</sup>UT Austin</span>
+                        <span class="author-block" style="font-size: 16px;"><sup>4</sup>UC Berkley</span>
+                        <span class="author-block" style="font-size: 16px;"><sup>5</sup>UIUC</span>
+                        <span class="author-block" style="font-size: 16px;"><sup>6</sup>Georgia Tech</span>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <div class="publication-links">
+                            <!-- PDF Link. -->
+                            <span class="link-block">
+                <a class="external-link button is-normal  is-dark"
+                   href="https://arxiv.org/pdf/2303.17546">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+                            <span class="link-block">
+                <a class="external-link button is-normal is-dark"
+                   href="https://arxiv.org/abs/2303.17546">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+
+                            <!-- Code Link. -->
+                            <span class="link-block">
+                <a class="external-link button is-normal is-dark"
+                   href="https://github.com/Picsart-AI-Research/PAIR-Diffusion">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+                            <!-- Dataset Link. -->
+                <span class="link-block">
+                <a class="external-link button is-normal  is-dark"
+                   href="https://huggingface.co/spaces/PAIR/PAIR-Diffusion">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Demo</span>
+                </a>
+                </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</section>
+
+
+<section class="hero teaser">
+    <div class="container is-max-desktop">
+        <div class="hero-body">
+            <div class="columns is-center is-four-fifths">
+                <img src='assets/Teaser_Small.svg'>
+            </div>
+
+            <div class="columns is-center is-four-fifths">
+                <img src='assets/Teaserv2.svg'>
+            </div>
+
+            <h5 class="subtitle has-text-centered">
+                PAIR diffusion achieves comprehensive editing capabilities in a multimodal manner by percieving images as composition of various objects.
+            </h5>
+        </div>
+    </div>
+</section>
+
+
+<!-- Abstract. -->
+<section class="section" style="padding: 5px;">
+    <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+            <div class="column is-four-fifths">
+                <h2 class="title is-3">Abstract</h2>
+                <div class="content has-text-justified">
+                    <p style="font-size: 16px;">
+                        Generative image editing has recently witnessed extremely fast-paced growth.
+Some works use high-level conditioning such as text, while others use low-level conditioning. Nevertheless, most of them lack fine-grained control over the properties of the different objects present in the image, i.e.\,object-level image editing.  
+   In this work, we tackle the task by perceiving the images as an amalgamation of various objects and aim to control the properties of each object in a fine-grained manner.
+ Out of these properties, we identify structure and appearance as the most intuitive to understand and useful for editing purposes.  
+ We propose PAIR Diffusion, a generic framework that can enable a diffusion model to control the structure and appearance properties of each object in the image.
+We show that having control over the properties of each object in an image leads to comprehensive editing capabilities.
+Our framework allows for various object-level editing operations on real images such as reference image-based appearance editing, free-form shape editing, adding objects, and variations. 
+Thanks to our design, we do not require any inversion step.
+Additionally, we propose multimodal classifier-free guidance which enables editing images using both reference images and text when using our approach with foundational diffusion models. 
+We validate the above claims by extensively evaluating our framework on both unconditional and foundational diffusion models.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Carousel block
+<section class="hero is-light is-small">
+    <div class="hero-body">
+        <h1 class="subtitle has-text-centered">
+            <span class="dnerf">PAIR-Diffusion</span> enables appearance manipulations.
+        </h1>
+        <div class="container">
+            <div class="carousel results-carousel" id="results-carousel">
+
+                <div class="item item-shiba">
+                    <div class="carousel-item has-background">
+                        <img alt="Image 1" src="./assets/sap_v3_e91/add_obj/2023-07-24T12-05-11/edit0.png">
+                    </div>
+                </div>
+                <div class="item item-fullbody">
+                    <div class="carousel-item has-background">
+                        <img alt="Image 1" src="./assets/sap_v3_e91/add_obj/2023-07-24T12-05-11/edit0.png">
+                    </div>
+                </div>
+                <div class="item item-blueshirt">
+                    <div class="carousel-item has-background">
+                        <img alt="Image 1" src="./assets/add_obj/2023-07-24T12-05-11/edit0.png">
+                    </div>
+                </div>
+                
+                <div class="item item-coffee">
+                    <div class="carousel-item has-background">
+                        <img alt="Image 1" src="./assets/add_obj/2023-07-24T12-05-11/edit0.png">
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section> -->
+<h1 class="title is-3 has-text-centered">Inference Overview</h1>
+<section class="hero teaser">
+    <div class="container is-max-desktop">
+        <div class="hero-body">
+            <div class="tabBlock">
+                <ul class="tabBlock-tabs">
+                  <li class="tabBlock-tab is-active">Appearance Editing</li>
+                  <li class="tabBlock-tab">Add Objects and Shape editing</li>
+                  <li class="tabBlock-tab">Multimodal Control</li>
+                </ul>
+                <div class="tabBlock-content">
+                  <div class="tabBlock-pane">
+                    <center>
+                        <div class="video-container">
+                            <video src="assets/app_edit_web_fast.mov" controls autoplay loop muted></video>
+                        </div>
+                    </center>
+                  </div>
+                  <div class="tabBlock-pane">
+                    <center>
+                        <div class="video-container">
+                            <video src="assets/add_obj_web_fast.mov" controls autoplay loop muted></video>
+                        </div>
+                    </center>
+                  </div>
+                  <div class="tabBlock-pane">
+                    <center>
+                        <div class="video-container">
+                            <video src="assets/multimodal_web_fast.mov" controls autoplay loop muted></video>
+                        </div>
+                    </center>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<h1 class="title is-3 has-text-centered">Results</h1>
+  <!-- Image with buttons block-->
+<section class="hero is-small"  style="background-color: rgb(235, 235, 235);" >
+    <div class="hero-body">
+      <h2 class="title is-4 has-text-centered">Appearance Editing</h2>
+        <div class="container" id="object_variations1">
+            <div class="columns is-center has-text-centered">
+                <div class="column is-full-desktop">
+                    <span class="link-block">
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDiv('app_edit_cub', '1')">
+                            <span class="icon"><b>1</b></span>
+                        </a>
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDiv('app_edit_cub', '2')">
+                            <span class="icon"><b>2</b></span>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        <div class="columns is-center is-four-fifths">
+            <div class="column has-text-centered">
+              <h2 class="title is-6">Original Image</h2>
+              <img id="app_edit_cub_inp" src='./assets/sap_v3_e91/app_edit/2023-07-22T09-06-24/vis_inp.png' width="512" height="512">
+            </div>
+            <!-- Second Column: Dynamic Image -->
+            <div class="column has-text-centered">
+              <h2 class="title is-6">Reference Image</h2>
+                <img id="app_edit_cub_ref" width="290"  src='./assets/sap_v3_e91/app_edit/2023-07-22T09-06-24/vis_ref.png'>
+            </div>
+            <!-- Third Column: Dynamic Image -->
+            <div class="column has-text-centered">
+                <h2 class="title is-6">Edited Image</h2>
+                  <img id="app_edit_cub_out" width="512" height="512" src='./assets/sap_v3_e91/app_edit/2023-07-22T09-06-24/edit0.png'>
+              </div>
+        </div>
+
+        <div class="container" id="object_variations1">
+            <div class="columns is-center has-text-centered">
+                <div class="column is-full-desktop">
+                    <span class="link-block">
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDiv('app_edit_car', '1')">
+                            <span class="icon"><b>1</b></span>
+                        </a>
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDiv('app_edit_car', '2')">
+                            <span class="icon"><b>2</b></span>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        <div class="columns is-center is-four-fifths">
+            <div class="column has-text-centered">
+              <h2 class="title is-6">Original Image</h2>
+              <img id="app_edit_car_inp" src='./assets/sap_v3_e91/app_edit/2023-07-22T09-14-05/vis_inp.png' width="512" height="512">
+            </div>
+            <!-- Second Column: Dynamic Image -->
+            <div class="column has-text-centered">
+              <h2 class="title is-6">Reference Image</h2>
+                <img id="app_edit_car_ref" src='./assets/sap_v3_e91/app_edit/2023-07-22T09-14-05/vis_ref.png'>
+            </div>
+            <!-- Third Column: Dynamic Image -->
+            <div class="column has-text-centered">
+                <h2 class="title is-6">Edited Image</h2>
+                  <img id="app_edit_car_out" src='./assets/sap_v3_e91/app_edit/2023-07-22T09-14-05/edit0.png'>
+            </div>
+        </div>
+
+        <div class="container" id="object_variations1">
+            <div class="columns is-center has-text-centered">
+                <div class="column is-full-desktop">
+                    <span class="link-block">
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDiv('app_edit_sky', '1')">
+                            <span class="icon"><b>1</b></span>
+                        </a>
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDiv('app_edit_sky', '2')">
+                            <span class="icon"><b>2</b></span>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        <div class="columns is-center is-four-fifths">
+            <div class="column has-text-centered">
+              <h2 class="title is-6">Original Image</h2>
+              <img id="app_edit_sky_inp" src='./assets/sap_v3_e91/app_edit/2023-07-22T10-58-26/vis_inp.png' width="512" height="512">
+            </div>
+            <!-- Second Column: Dynamic Image -->
+            <div class="column has-text-centered">
+              <h2 class="title is-6">Reference Image</h2>
+                <img id="app_edit_sky_ref" src='./assets/sap_v3_e91/app_edit/2023-07-22T10-58-26/vis_ref.png'>
+                <p style="font-family: Noto Sans; font-size: 18px;">Prompt - A picture of sky with <font color="red">birds</font> in it</p>
+            </div>
+            <!-- Third Column: Dynamic Image -->
+            <div class="column has-text-centered">
+                <h2 class="title is-6">Edited Image</h2>
+                  <img id="app_edit_sky_out" src='./assets/sap_v3_e91/app_edit/2023-07-22T10-58-26/edit0.png'>
+            </div>
+        </div>
+
+        
+    </div>
+</section>
+
+
+
+<section class="hero is-small">
+    <div class="hero-body">
+      <h2 class="title is-4 has-text-centered">Add Objects and Shape Editing</h2>
+        <div class="container" id="object_variations1">
+            <div class="columns is-center has-text-centered">
+                <div class="column is-full-desktop">
+                    <span class="link-block">
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDiv('add_obj_sand', '1')">
+                            <span class="icon"><b>1</b></span>
+                        </a>
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDiv('add_obj_sand', '2')">
+                            <span class="icon"><b>2</b></span>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        <div class="columns is-center is-four-fifths">
+            <div class="column has-text-centered">
+              <h2 class="title is-6">Original Image</h2>
+              <img src='./assets/sap_v3_e91/add_obj/2023-07-26T19-35-05/vis_inp.png' width="512" height="512">
+            </div>
+            <!-- Second Column: Dynamic Image -->
+            <div class="column has-text-centered">
+              <h2 class="title is-6">Reference Image</h2>
+                <img id="add_obj_sand_ref" width="512"  src='./assets/sap_v3_e91/add_obj/2023-07-26T19-35-05/vis_ref.png'> 
+                <p id="sand_prompt">Prompt - A picture of sandwich on table</p>
+            </div>
+            <!-- Third Column: Dynamic Image -->
+            <div class="column has-text-centered">
+                <h2 class="title is-6">Edited Image</h2>
+                  <img id="add_obj_sand_out" width="512" height="512" src='./assets/sap_v3_e91/add_obj/2023-07-26T19-35-05/edit0.png'>
+              </div>
+        </div>
+
+        <div class="container" id="object_variations1">
+            <div class="columns is-center has-text-centered">
+                <div class="column is-full-desktop">
+                    <span class="link-block">
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDiv('add_obj_cake', '1')">
+                            <span class="icon"><b>1</b></span>
+                        </a>
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDiv('add_obj_cake', '2')">
+                            <span class="icon"><b>2</b></span>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        <div class="columns is-center is-four-fifths">
+            <div class="column has-text-centered">
+              <h2 class="title is-6">Original Image</h2>
+              <img src='./assets/sap_v3_e91/add_obj/2023-07-26T19-50-48/vis_inp.png' width="512" height="512">
+            </div>
+            <!-- Second Column: Dynamic Image -->
+            <div class="column has-text-centered">
+              <h2 class="title is-6">Reference Image</h2>
+                <img id="add_obj_cake_ref" width="260" src='./assets/sap_v3_e91/add_obj/2023-07-26T19-50-48//vis_ref.png'>
+                <p>Prompt - A picture of the cake on the table</p>
+            </div>
+            <!-- Third Column: Dynamic Image -->
+            <div class="column has-text-centered">
+                <h2 class="title is-6">Edited Image</h2>
+                  <img id="add_obj_cake_out" src='./assets/sap_v3_e91/add_obj/2023-07-26T19-50-48//edit0.png'>
+            </div>
+        </div>
+
+        <div class="container" id="object_variations1">
+            <div class="columns is-center has-text-centered">
+                <div class="column is-full-desktop">
+                    <span class="link-block">
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDiv('add_obj_lake', '1');">
+                            <span class="icon"><b>1</b></span>
+                        </a>
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDiv('add_obj_lake', '2')">
+                            <span class="icon"><b>2</b></span>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        <div class="columns is-center is-four-fifths">
+            <div class="column has-text-centered">
+              <h2 class="title is-6">Original Image</h2>
+              <img src='./assets/sap_v3_e91/add_obj/2023-07-26T20-08-40/vis_inp.png' width="512" height="512">
+            </div>
+            <!-- Second Column: Dynamic Image -->
+            <div class="column has-text-centered">
+              <h2 class="title is-6">Reference Image</h2>
+                <img id="add_obj_lake_ref" src='./assets/sap_v3_e91/add_obj/2023-07-26T20-08-40/vis_ref.png'>
+                <p id="lake_prompt">Prompt - A picture of the crystal clear lake with <font color=red>reflections</font></p>
+            </div>
+            <!-- Third Column: Dynamic Image -->
+            <div class="column has-text-centered">
+                <h2 class="title is-6">Edited Image</h2>
+                  <img id="add_obj_lake_out" src='./assets/sap_v3_e91/add_obj/2023-07-26T20-08-40/edit0.png'>
+            </div>
+        </div>
+
+        
+    </div>
+</section>
+
+             
+ 
+
+
+<!-- <section class="hero is-light is-small">
+
+</section> --> 
+<!-- Image with buttons block -->
+<section class="hero is-small" style="background-color: rgb(235, 235, 235);">
+    <div class="hero-body">
+      <h2 class="title is-4 has-text-centered">Object Variations</h2>
+        <div class="container" id="object_variations1">
+            <div class="columns is-center has-text-centered">
+                <div class="column is-full-desktop">
+                    <span class="link-block">
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDivVar('variation1', './assets/sap_v3_e91/variation/2023-07-25T10-15-24/edit0.png')">
+                            <span class="icon"><b>1</b></span>
+                        </a>
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDivVar('variation1', './assets/sap_v3_e91/variation/2023-07-25T10-15-24/edit1.png')">
+                            <span class="icon"><b>2</b></span>
+                        </a>
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDivVar('variation1', './assets/sap_v3_e91/variation/2023-07-25T10-15-24/edit2.png')">
+                          <span class="icon"><b>3</b></span>
+                        </a>
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDivVar('variation1', './assets/sap_v3_e91/variation/2023-07-25T10-15-24/edit3.png')">
+                          <span class="icon"><b>4</b></span>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        <div class="columns is-center is-four-fifths">
+            <div class="column has-text-centered">
+              <h2 class="title is-6">Original Image</h2>
+              <img src='./assets/sap_v3_e91/variation/2023-07-25T10-15-24/input.png' width="512" height="512">
+            </div>
+            <!-- Second Column: Dynamic Image -->
+            <div class="column has-text-centered">
+              <h2 class="title is-6">Edited Image</h2>
+                <img id="variation1" width="512" height="512" src='./assets/sap_v3_e91/variation/2023-07-25T10-15-24/edit0.png'>
+            </div>
+        </div>
+    </div>
+
+        <div class="container" id="object_variations2">
+            <div class="columns is-center has-text-centered">
+                <div class="column is-full-desktop">
+                    <span class="link-block">
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDivVar('variation2', './assets/sap_v3_e91/variation/2023-07-26T18-27-29/edit3.png')">
+                        <span class="icon"><b>1</b></span>
+                        </a>
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDivVar('variation2', './assets/sap_v3_e91/variation/2023-07-26T18-31-03/edit1.png')">
+                        <span class="icon"><b>2</b></span>
+                        </a>
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDivVar('variation2', './assets/sap_v3_e91/variation/2023-07-26T18-27-29/edit0.png')">
+                        <span class="icon"><b>3</b></span>
+                        </a>
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDivVar('variation2', './assets/sap_v3_e91/variation/2023-07-26T18-27-29/edit1.png')">
+                        <span class="icon"><b>4</b></span>
+                        </a>
+                    <!-- Add more buttons as needed -->
+                    </span>
+                </div>
+            </div>
+            <div class="columns is-center is-four-fifths">
+                <div class="column has-text-centered">
+                    <h2 class="title is-6">Original Image</h2>
+                        <img src='./assets/sap_v3_e91/variation/2023-07-26T18-27-29/input.png' width="512" height="512">
+                </div>
+                <!-- Second Column: Dynamic Image -->
+                <div class="column has-text-centered">
+                    <h2 class="title is-6">Edited Image</h2>
+                        <img id="variation2" width="512" height="512" src='./assets/sap_v3_e91/variation/2023-07-26T18-27-29/edit3.png'>
+                        <p style="font-family: Noto Sans; font-size: 18px;">Prompt - A picture of a  <font color="red">purple</font> door.</p>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container" id="object_variations2">
+            <div class="columns is-center has-text-centered">
+                <div class="column is-full-desktop">
+                    <span class="link-block">
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDivVar('variation3', 'assets/sap_v3_e91/variation/2023-07-25T11-17-34/edit1.png')">
+                        <span class="icon"><b>1</b></span>
+                        </a>
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDivVar('variation3', 'assets/sap_v3_e91/variation/2023-07-25T11-17-34/edit2.png')">
+                        <span class="icon"><b>2</b></span>
+                        </a>
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDivVar('variation3', 'assets/sap_v3_e91/variation/2023-07-25T11-17-34/edit0.png')">
+                        <span class="icon"><b>3</b></span>
+                        </a>
+                        <a class="external-link button is-normal is-square is-light" onclick="showImageInDivVar('variation3', 'assets/sap_v3_e91/variation/2023-07-25T11-17-34/edit3.png')">
+                        <span class="icon"><b>4</b></span>
+                        </a>
+                    <!-- Add more buttons as needed -->
+                    </span>
+                </div>
+            </div>
+            <div class="columns is-center is-four-fifths">
+                <div class="column has-text-centered">
+                    <h2 class="title is-6">Original Image</h2>
+                        <img src='assets/sap_v3_e91/variation/2023-07-25T11-17-34/input.png' width="512" height="512">
+                </div>
+                <!-- Second Column: Dynamic Image -->
+                <div class="column has-text-centered">
+                    <h2 class="title is-6">Edited Image</h2>
+                        <img id="variation3" width="512" height="512" src='assets/sap_v3_e91/variation/2023-07-25T11-17-34/edit1.png'>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+        <h2 class="title">BibTeX</h2>
+        <pre><code>@article{goel2023pair,
+        title={PAIR-Diffusion: Object-Level Image Editing with Structure-and-Appearance Paired Diffusion Models},
+        author={Goel, Vidit and Peruzzo, Elia and Jiang, Yifan and Xu, Dejia and Sebe, Nicu and Darrell, Trevor and 
+        Wang, Zhangyang and Shi, Humphrey},
+        journal={arXiv preprint arXiv:2303.17546},
+        year={2023}}</code></pre>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-8">
+                <div class="content">
+                    <p>
+                        This website is licensed under a <a href="http://creativecommons.org/licenses/by-sa/4.0/"
+                                                            rel="license">Creative
+                        Commons Attribution-ShareAlike 4.0 International License</a>.
+                    </p>
+                    <p>
+                        Website source code based on the Nerfies project page. If you want to reuse their <a
+                            href="https://github.com/nerfies/nerfies.github.io">source code</a>, please credit them
+                        appropriately.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
